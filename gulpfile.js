@@ -366,7 +366,7 @@ const toProd = (done) => {
 };
 
 const copyPhp = (done) => {
-  return src(`${srcFolder}/**/*.{php,.htaccess,.htsettings}`, {
+  return src(`${srcFolder}/**/*.{php,htaccess,htsettings}`, {
     dot: true,
   }).pipe(dest(buildFolder));
 };
