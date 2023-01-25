@@ -1,5 +1,6 @@
 import vars from "../_vars.js";
 import { fetchApi } from "../functions/fetchApi";
+import { loggedIn } from "../functions/loggedIn";
 
 const usedInComponents = ["auth"];
 const currentFilename = window.location.pathname.split("/").pop().split(".")[0];
@@ -39,24 +40,6 @@ function main() {
         if (["WRONG_PASSWORD", "USER_NOT_FOUND"].includes(error?.status)) {
           document.location.reload();
         }
-      });
-  });
-}
-
-function loggedIn() {
-  return new Promise((resolve, reject) => {
-    fetchApi(vars.apiAuthUrl, {
-      op: "check",
-    })
-      .then((data) => {
-        if (data.status == "AUTHORIZED") {
-          resolve();
-        } else {
-          reject();
-        }
-      })
-      .catch((error) => {
-        reject(error);
       });
   });
 }
