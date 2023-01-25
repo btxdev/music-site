@@ -4,3 +4,4 @@ import "./components/fix-header";
 import "./components/top-banner";
 import "./components/play";
 import "./components/auth";
+import "./components/logout";
