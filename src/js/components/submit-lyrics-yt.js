@@ -1,8 +1,12 @@
 import vars from "../_vars.js";
 import { fetchApi } from "../functions/fetchApi";
 
-const usedInComponents = ["submit-lyrics"];
+const usedInComponents = ["submit-youtube"];
 const currentFilename = window.location.pathname.split("/").pop().split(".")[0];
+
+const emailRegex = new RegExp(
+  /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/
+);
 
 if (usedInComponents.includes(currentFilename)) {
   document.addEventListener("DOMContentLoaded", main);
@@ -24,26 +28,13 @@ function main() {
 
 function submitForm() {
   const $artistField = document.querySelector("input[name=artist]");
-  const $titleField = document.querySelector("input[name=title]");
-  const $albumField = document.querySelector("input[name=album]");
-  const $lyricsField = document.querySelector(".submit__textarea");
   const $hrefField = document.querySelector("input[name=href]");
-  const fields = [
-    $artistField,
-    $titleField,
-    $albumField,
-    $lyricsField,
-    $hrefField,
-  ];
+  const $aboutField = document.querySelector(".submit__textarea");
+  const $emailField = document.querySelector("input[name=email]");
+  const fields = [$artistField, $hrefField, $aboutField, $emailField];
   validate(fields)
     .then(() => {
-      return submitLyrics(
-        $artistField,
-        $titleField,
-        $albumField,
-        $lyricsField,
-        $hrefField
-      );
+      return submitLyrics($artistField, $hrefField, $aboutField, $emailField);
     })
     .then(() => {
       document.location.reload();
@@ -62,9 +53,16 @@ function validate(fields) {
     let rejectCount = 0;
     let id = 0;
     fields.forEach((field) => {
-      if (id != 2 && field.value.length < 2) {
-        blink(field);
-        rejectCount++;
+      if (id == 3) {
+        if (!field.value.match(emailRegex)) {
+          blink(field);
+          rejectCount++;
+        }
+      } else {
+        if (id != 2 && field.value.length < 2) {
+          blink(field);
+          rejectCount++;
+        }
       }
       id++;
     });
@@ -89,26 +87,18 @@ function blink(field) {
   blinkFunc(0);
 }
 
-function submitLyrics(
-  $artistField,
-  $titleField,
-  $albumField,
-  $lyricsField,
-  $hrefField
-) {
+function submitLyrics($artistField, $hrefField, $aboutField, $emailField) {
+  const artist = $artistField.value;
+  const href = $hrefField.value;
+  const about = $aboutField.value;
+  const email = $emailField.value;
   return new Promise((resolve, reject) => {
-    const artist = $artistField.value;
-    const title = $titleField.value;
-    const album = $albumField.value;
-    const lyrics = $lyricsField.value;
-    const href = $hrefField.value;
     fetchApi(vars.apiUserUrl, {
-      op: "submit_lyrics",
+      op: "submit_lyrics_yt",
       artist: artist,
-      title: title,
-      album: album,
-      lyrics: lyrics,
       href: href,
+      about: about,
+      email: email,
     })
       .then((data) => {
         if (data.status == "OK") {

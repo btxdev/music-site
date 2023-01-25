@@ -58,14 +58,14 @@
     $db->run('DROP TABLE IF EXISTS `songs`;');
     $db->run(
         'CREATE TABLE `songs` (
-          `song_id` INT UNSIGNED NOT NULL ,
+          `song_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
           `artist` TINYTEXT NOT NULL ,
           `title` TINYTEXT NOT NULL ,
           `album` TINYTEXT NULL DEFAULT NULL ,
           `lyrics` TEXT NULL DEFAULT NULL ,
           `song_link` TINYTEXT NULL DEFAULT NULL ,
           `submitted_by` TINYTEXT NOT NULL ,
-          `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+          `created` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
           PRIMARY KEY (`song_id`)
         )
         ENGINE = InnoDB;'
@@ -75,13 +75,13 @@
     $db->run('DROP TABLE IF EXISTS `yt_songs`;');
     $db->run(
         'CREATE TABLE `yt_songs` (
-          `song_id` INT UNSIGNED NOT NULL ,
+          `song_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
           `artist` TINYTEXT NOT NULL ,
           `link` TINYTEXT NOT NULL ,
           `about` TINYTEXT NULL DEFAULT NULL ,
           `email` TINYTEXT NULL NOT NULL ,
           `submitted_by` TINYTEXT NOT NULL ,
-          `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+          `created` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
           PRIMARY KEY (`song_id`)
         )
         ENGINE = InnoDB;'
@@ -91,7 +91,7 @@
     $db->run('DROP TABLE IF EXISTS `categories`;');
     $db->run(
         'CREATE TABLE `categories` (
-          `cat_id` INT UNSIGNED NOT NULL ,
+          `cat_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
           `title` TINYTEXT NOT NULL ,
           `link` TINYTEXT NOT NULL ,
           PRIMARY KEY (`cat_id`)

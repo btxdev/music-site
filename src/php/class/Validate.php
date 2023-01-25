@@ -38,9 +38,6 @@
 
             $str = $this->std($str);
 
-            // can be NULL
-            if($str == '') return new Status('OK');
-
             if(!preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/', $str))
                 return new Status('WRONG_FORMAT');
             else
@@ -53,7 +50,7 @@
             $str = $this->std($str);
 
             // can be NULL
-            if($str == '') return new Status('OK');
+            if($str == '') return new Status('OK', ['returnValue' => '']);
 
             if(!preg_match('/^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/', $str))
                 return new Status('WRONG_FORMAT');
@@ -67,7 +64,7 @@
             $str = $this->std($str);
 
             // can be NULL
-            if($str == '') return new Status('OK');
+            if($str == '') return new Status('OK', ['returnValue' => '']);
 
             if(!preg_match('/^([A-Za-zА-ЯЁа-яё]){2,32}$/u', $str))
                 return new Status('WRONG_FORMAT');
@@ -81,12 +78,39 @@
             $str = $this->std($str);
 
             // can be NULL
-            if($str == '') return new Status('OK');
+            if($str == '') return new Status('OK', ['returnValue' => '']);
 
             if(!preg_match('/^([A-Za-zА-ЯЁа-яё ,.]){2,32}$/u', $str))
                 return new Status('WRONG_FORMAT');
             else
                 return new Status('OK', ['returnValue' => $str]);
+        }
+
+        function song($str) {
+          $str = $this->std($str);
+
+          // can be NULL
+          if($str == '') return new Status('OK', ['returnValue' => '']);
+
+          if(mb_strlen($str) >= 2 && mb_strlen($str) < 255) {
+            return new Status('OK', ['returnValue' => $str]);
+          }
+          else {
+            return new Status('WRONG_FORMAT');
+          }
+
+        }
+
+        function lyrics($str) {
+          $str = $this->std($str);
+
+          if(mb_strlen($str) >= 2 && mb_strlen($str) < 65565) {
+            return new Status('OK', ['returnValue' => $str]);
+          }
+          else {
+            return new Status('WRONG_FORMAT');
+          }
+
         }
 
     }

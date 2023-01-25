@@ -5,3 +5,5 @@ import "./components/top-banner";
 import "./components/play";
 import "./components/auth";
 import "./components/logout";
+import "./components/submit-lyrics";
+import "./components/submit-lyrics-yt";

@@ -24,14 +24,14 @@ export const fetchApi = (url, args) => {
           return response.text().then((text) => {
             console.log("server returns error string:");
             console.log(text);
-            reject();
+            reject(text);
           });
         }
       })
       .catch((error) => {
         console.log("server error:");
         console.log(error);
-        reject();
+        reject(error);
       });
   });
 };
