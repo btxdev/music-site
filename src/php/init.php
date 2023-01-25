@@ -106,6 +106,7 @@
     );
 
     // организация связей
+    $admin->relation_1N('roles', 'users', 'role_id', 'uuid');
     $admin->relation_NN('songs', 'categories', 'song_id', 'cat_id');
     //
 

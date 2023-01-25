@@ -3,3 +3,4 @@ import "./components/anim-num";
 import "./components/fix-header";
 import "./components/top-banner";
 import "./components/play";
+import "./components/auth";

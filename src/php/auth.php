@@ -7,6 +7,11 @@ $decoded = [];
 
 $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
 
+function sendAsJson($data) {
+  header("Content-type: application/json; charset=utf-8");
+  exit($data->json());
+}
+
 if ($contentType === "application/json") {
     // получение данных POST формы
     $content = trim(file_get_contents("php://input"));
@@ -15,13 +20,10 @@ if ($contentType === "application/json") {
 
     // ошибка обработки JSON
     if(! is_array($decoded)) {
-        exit(emptyJson());
+        sendAsJson([]);
     }
 }
 
-function emptyJson() {
-    return json_encode (json_decode ("{}"));
-}
 function processStatus($status) {
     if($status->ok())
         return $status->returnValue;
@@ -35,7 +37,24 @@ function requireFields($fields) {
     }
 }
 
+
 if(isset($decoded['op'])) {
+
+  // проверка доступа
+    if($decoded['op'] == 'check') {
+      $session_name = $settings->get('session_name');
+      $session_hash = $access->getSessionCookie($session_name);
+      $current_uuid = $access->getUserIdBySessionHash($session_hash);
+      if($current_uuid) {
+          $result = new Status('AUTHORIZED');
+          sendAsJson($result);
+      }
+      else {
+          $result = new Status('NOT_AUTHORIZED');
+          sendAsJson($result);
+      }
+
+    }
 
     if($decoded['op'] == 'login') {
 
@@ -43,20 +62,16 @@ if(isset($decoded['op'])) {
 
         $login = processStatus($validate->login($decoded['login']));
         $password = processStatus($validate->password($decoded['password']));
-        
+
         $loginResult = $access->login($login, $password);
         if($loginResult->ok()) {
             $hash = $loginResult->session;
             $result = $access->setSessionCookie($settings->get('session_name'), $hash);
-            exit($result->json());
+            sendAsJson($result);
         }
         else {
-            exit($loginResult->json());
+            sendAsJson($loginResult);
         }
-    }
-
-    if($decoded['op'] == 'register') {
-        
     }
 
     if($decoded['op'] == 'logout') {
@@ -72,10 +87,10 @@ if(isset($decoded['op'])) {
                 catch(Exception $e) {
                     $status = new Status('ERROR');
                 }
-                exit($status->json());
+                sendAsJson($status);
             }
         }
-        exit(emptyJson());
+        sendAsJson([]);
     }
 
 }
