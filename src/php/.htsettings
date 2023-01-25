@@ -1,0 +1,14 @@
+db_host = 127.0.0.1
+db_user = toklyrics
+db_password = 94!NwY62!v4QS!e5Xu9
+db_dbname = toklyrics_db
+db_encoding = utf8mb4
+session_name = 4d25151745b7475cd97aa74fe7e54fab
+session_hash_hardness = 20
+title = Toklyrics - The #1 Underground Lyrics Source
+meta_prop_og:title = Toklyrics - The #1 Underground Lyrics Source
+meta_prop_og:site_name = Toklyrics
+meta_prop_og:url = https://www.toklyrics.com
+meta_prop_og:type = website
+meta_prop_og:description = TokLyrics published lyrics from both underground and rising artists.
+meta_description = TokLyrics published lyrics from both underground and rising artists.
