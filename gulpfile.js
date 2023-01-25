@@ -366,7 +366,9 @@ const toProd = (done) => {
 };
 
 const copyPhp = (done) => {
-  return src(`${srcFolder}/**/*.php`, {}).pipe(dest(buildFolder));
+  return src(`${srcFolder}/**/*.{php,ht*}`, { dot: true }).pipe(
+    dest(buildFolder)
+  );
 };
 
 exports.default = series(
