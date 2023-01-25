@@ -23,7 +23,8 @@
 // Реализация бургер-меню
 import { burger } from "./functions/burger";
 
-import { fetchApi } from "./functions/fetchApi";
+// import { fetchApi } from "./functions/fetchApi";
+// import { loggedIn } from "./functions/loggedIn";
 
 // Реализация остановки скролла (не забудьте вызвать функцию)
 // import { disableScroll } from './functions/disable-scroll';

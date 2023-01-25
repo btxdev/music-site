@@ -1,9 +1,8 @@
+import vars from "../_vars.js";
 import { fetchApi } from "../functions/fetchApi";
 
 const usedInComponents = ["auth"];
 const currentFilename = window.location.pathname.split("/").pop().split(".")[0];
-
-const apiUrl = "/php/auth.php";
 
 const loginRegex = new RegExp(/^[a-z\d_]{4,20}$/i);
 const passwordRegex = new RegExp(/^([a-zA-Z0-9-.,_!а-яА-ЯёЁ]){6,32}$/);
@@ -34,7 +33,6 @@ function main() {
         return authorize($loginField, $passwordField);
       })
       .then(() => {
-        console.log("redirecting...");
         document.location.reload();
       })
       .catch((error) => {
@@ -47,7 +45,7 @@ function main() {
 
 function loggedIn() {
   return new Promise((resolve, reject) => {
-    fetchApi(apiUrl, {
+    fetchApi(vars.apiAuthUrl, {
       op: "check",
     })
       .then((data) => {
@@ -83,8 +81,7 @@ function authorize($loginField, $passwordField) {
   return new Promise((resolve, reject) => {
     const login = $loginField.value;
     const password = $passwordField.value;
-    console.log("send request to api");
-    fetchApi(apiUrl, {
+    fetchApi(vars.apiAuthUrl, {
       op: "login",
       login: login,
       password: password,

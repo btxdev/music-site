@@ -1,6 +1,6 @@
+import vars from "../_vars.js";
 import { fetchApi } from "../functions/fetchApi";
-
-const apiUrl = "/php/auth.php";
+import { loggedIn } from "../functions/loggedIn";
 
 document.addEventListener("DOMContentLoaded", main);
 
@@ -16,27 +16,9 @@ function main() {
     .catch(() => {});
 }
 
-function loggedIn() {
-  return new Promise((resolve, reject) => {
-    fetchApi(apiUrl, {
-      op: "check",
-    })
-      .then((data) => {
-        if (data.status == "AUTHORIZED") {
-          resolve();
-        } else {
-          reject();
-        }
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-}
-
 function logOut() {
   return new Promise((resolve, reject) => {
-    fetchApi(apiUrl, {
+    fetchApi(vars.apiAuthUrl, {
       op: "logout",
     })
       .then((data) => {

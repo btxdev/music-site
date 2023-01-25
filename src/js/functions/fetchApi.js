@@ -10,13 +10,10 @@ export const fetchApi = (url, args) => {
   ["method", "headers", "body"].forEach((key) => {
     if (key in args) newArgs[key] = args[key];
   });
-  console.log("send: ");
-  console.log(newArgs);
   return new Promise((resolve, reject) => {
     fetch(url, newArgs)
       .then((response) => {
         const contentType = response.headers.get("content-type");
-        console.log(contentType);
         if (contentType && contentType.indexOf("application/json") !== -1) {
           return response.json().then((data) => {
             console.log("parsed json data:");
