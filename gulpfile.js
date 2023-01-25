@@ -303,6 +303,7 @@ const watchFiles = () => {
   watch(`${paths.srcImgFolder}/**/**.{jpg,jpeg,png,svg}`, images);
   watch(`${paths.srcImgFolder}/**/**.{jpg,jpeg,png}`, webpImages);
   watch(`${paths.srcImgFolder}/**/**.{jpg,jpeg,png}`, avifImages);
+  watch(`${srcFolder}/**/**.{php,htaccess,htsettings}`, copyPhp);
   watch(paths.srcSvg, svgSprites);
 };
 
