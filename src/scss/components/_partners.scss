@@ -30,6 +30,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
+    margin-bottom: 30px;
 
     @include small-tablet {
       grid-template-columns: repeat(1, 1fr);
@@ -42,6 +43,7 @@
   }
 
   &__image {
+    display: flex;
     margin-right: 40px;
     min-width: 90px;
     min-height: 90px;
@@ -70,6 +72,91 @@
     @include mobile {
       max-width: none;
       font-size: 12px;
+    }
+  }
+}
+
+.wrapper {
+  display: flex;
+  padding-left: 46px;
+  width: 50%;
+
+
+  @media (max-width: 1220px) {
+    padding-left: 0;
+  }
+
+  &__left {
+    margin-right: 40px;
+
+    @media (max-width: 1220px) {
+      margin-right: 20px;
+    }
+
+    @media (max-width: 576px) {
+      margin-right: 15px;
+    }
+  }
+
+  &__right {
+    &-bottom {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+
+
+  @include small-tablet {
+    width: 100%;
+  }
+}
+
+.content-picture {
+  display: flex;
+  width: fit-content;
+  background-color: rgba(#000, 0.3);
+}
+
+.content-textarea {
+  resize: none;
+}
+
+
+.content-file {
+  display: flex;
+  align-items: center;
+  min-height: 28px;
+  cursor: pointer;
+
+  &-text {
+    display: inline-block;
+    margin-right: 10px;
+  }
+}
+
+.bottom-line {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0px;
+    width: 100%;
+    height: 1px;
+    background-color: currentColor;
+    transform: scalex(0);
+    transform-origin: right;
+    transition: transform 0.4s;
+  }
+
+
+  &:hover {
+    &::before {
+      transform: scalex(1);
+      transform-origin: left;
+      transition: transform 0.4s;
     }
   }
 }

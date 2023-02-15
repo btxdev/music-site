@@ -21,10 +21,7 @@
 // import './functions/fix-fullheight';
 
 // Реализация бургер-меню
-import { burger } from "./functions/burger";
-
-// import { fetchApi } from "./functions/fetchApi";
-// import { loggedIn } from "./functions/loggedIn";
+import { burger } from './functions/burger';
 
 // Реализация остановки скролла (не забудьте вызвать функцию)
 // import { disableScroll } from './functions/disable-scroll';

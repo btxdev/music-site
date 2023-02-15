@@ -57,7 +57,7 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    padding-top: 310px;
+    // padding-top: 310px;
     height: 100%;
   }
 
@@ -146,48 +146,100 @@
     }
   }
 
-  // &__playback {
-  //   position: absolute;
-  //   right: 14px;
-  //   bottom: 14px;
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  //   border-radius: 50%;
-  //   width: 30px;
-  //   height: 30px;
-  //   background-color: rgba(#fff, 0.25);
-
-  //   &-icon {
-  //     display: inline-block;
-  //     width: 15px;
-  //     height: 15px;
-  //     background-position: center;
-  //     background-repeat: no-repeat;
-  //     background-size: contain;
-  //   }
-
-  //   // &::before {
-  //   //   content: "";
-  //   //   position: absolute;
-  //   //   left: 0;
-  //   //   bottom: 0;
-
-  //   //   width: 100%;
-  //   //   height: 100%;
-  //   // }
-  // }
 }
 
-// .pause {
-//   .feature__playback-icon {
-//     background-image: url('../img/pause.svg');
-//   }
-// }
+.animation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 126px;
+  width: 265px;
+  min-height: 110px;
 
-// .play {
-//   .feature__playback-icon {
-//     transform: translateX(2px);
-//     background-image: url('../img/start.svg');
-//   }
-// }
+  &__line {
+    width: 3px;
+    height: 110px;
+    background-color: #fff;
+
+    &-1 {
+      animation: go-up-down 0.7s infinite alternate;
+    }
+
+    &-2 {
+      animation: go-up-down 0.8s infinite alternate;
+    }
+
+    &-3 {
+      animation: go-up-down 0.9s infinite alternate;
+    }
+
+    &-4 {
+      animation: go-up-down 0.4s infinite alternate;
+    }
+
+    &-5 {
+      animation: go-up-down 0.6s infinite alternate;
+    }
+
+    &-6 {
+      animation: go-up-down 0.3s infinite alternate;
+    }
+
+    &-7 {
+      animation: go-up-down 0.9s infinite alternate;
+    }
+
+    &-8 {
+      animation: go-up-down 0.4s infinite alternate;
+    }
+
+    &-9 {
+      animation: go-up-down 0.7s infinite alternate;
+    }
+
+    &-10 {
+      animation: go-up-down 0.6s infinite alternate;
+    }
+
+    &-11 {
+      animation: go-up-down 0.8s infinite alternate;
+    }
+
+    &-12 {
+      animation: go-up-down 0.9s infinite alternate;
+    }
+
+    &-13 {
+      animation: go-up-down 0.4s infinite alternate;
+    }
+
+    &-14 {
+      animation: go-up-down 0.3s infinite alternate;
+    }
+
+    &-15 {
+      animation: go-up-down 0.5s infinite alternate;
+    }
+
+    &-16 {
+      animation: go-up-down 0.8s infinite alternate;
+    }
+
+    &-17 {
+      animation: go-up-down 0.9s infinite alternate;
+    }
+
+    &-18 {
+      animation: go-up-down 0.7s infinite alternate;
+    }
+  }
+}
+
+@keyframes go-up-down {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 110px;
+  }
+}

@@ -1,160 +1,96 @@
 <!DOCTYPE html>
 <html lang="ru" class="page page-youtube">
-  @include('partials/head.html')
 
-  <body class="page__body">
-    <div class="site-container">
-      <header class="header header--gray">
-        <div class="container header__container">
-          <a class="logo" href="index.html">Toklyrics</a>
-          <nav class="nav" title="Main menu" data-menu>
-            <ul class="nav__list list-reset">
-              <li class="nav__item">
-                <a class="nav__link" href="index.html">Home</a>
-              </li>
-              <li class="nav__item">
-                <a class="nav__link" href="submit-lyrics.html">Submit Lyrics</a>
-              </li>
-              <li class="nav__item">
-                <a class="nav__link nav__link--active" href="#"
-                  >Submit for YouTube</a
-                >
-              </li>
-            </ul>
-          </nav>
-          <button
-            class="burger"
-            aria-label="Open menu"
-            aria-expanded="false"
-            data-burger
-          ></button>
-        </div>
-      </header>
+@include('partials/head.html')
 
-      <main class="main">
-        <!-- <section class="submit-top">
+<body class="page__body">
+  <div class="site-container">
+
+    <header class="header header--gray">
+      <div class="container header__container">
+        <a class="logo" href="index.html">Toklyrics</a>
+        <nav class="nav" title="Main menu" data-menu>
+          <ul class="nav__list list-reset">
+            <li class="nav__item"><a class="nav__link" href="index.html">Home</a></li>
+            <li class="nav__item"><a class="nav__link" href="submit-lyrics.html">Submit Lyrics</a></li>
+            <li class="nav__item"><a class="nav__link nav__link--active" href="#">Submit for YouTube</a></li>
+            <li class="nav__item"><a class="nav__link" href="trending.html">Weekly trending sounds</a></li>
+          </ul>
+        </nav>
+        <button class="burger" aria-label="Open menu" aria-expanded="false"  data-burger>
+        </button>
+      </div>
+    </header>
+
+    <main class="main">
+
+      <!-- <section class="submit-top">
         <div class="container">
           <h4 class="partners-title">Partners </h4>
         </div>
       </section> -->
 
-        <section class="submit sumbit-lyrics">
-          <button class="playback pause btn-reset">
-            <span class="playback-icon"></span>
-          </button>
-          <div class="container">
-            <div class="submit__content">
-              <div class="submit__lyrics">
-                <div
-                  class="submit__lyrics-top"
-                  data-aos="fade-up"
-                  data-aos-once="true"
-                >
-                  <h4 class="submit__title">
-                    <span>Submit</span> your tracks for Youtube consideration
-                  </h4>
-                  <span class="submit__subscr" data-num="480000">480 000+</span>
-                  <span class="submit__subscr-text">Youtube Subscribers</span>
-                </div>
-                <form
-                  class="submit__form"
-                  action="#"
-                  data-aos="fade-up"
-                  data-aos-once="true"
-                >
-                  <label class="submit__label">
-                    <span class="submit__label-text"
-                      >Artist or Band Name *</span
-                    >
-                    <input
-                      class="submit__input input-reset"
-                      type="text"
-                      name="artist"
-                      required
-                    />
-                  </label>
-                  <label class="submit__label">
-                    <span class="submit__label-text">Link to Song *</span>
-                    <span class="submit__label-descr"
-                      >Add a public link to your song for review</span
-                    >
-                    <input
-                      class="submit__input input-reset"
-                      type="text"
-                      name="href"
-                      required
-                    />
-                  </label>
-                  <label class="submit__label">
-                    <span class="submit__label-text"
-                      >Tell about your song submission</span
-                    >
-                    <span class="submit__label-descr">Optional</span>
-                    <textarea class="submit__textarea"></textarea>
-                  </label>
-                  <label class="submit__label">
-                    <span class="submit__label-text">Email *</span>
-                    <input
-                      class="submit__input input-reset"
-                      type="text"
-                      name="email"
-                      required
-                    />
-                  </label>
-                  <button class="submit__lyrics-btn btn-reset main-btn">
-                    Submit
-                  </button>
-                </form>
+      <section class="submit sumbit-lyrics">
+        <button class="playback pause btn-reset">
+          <span class="playback-icon"></span>
+        </button>
+        <div class="container">
+          <div class="submit__content">
+            <div class="submit__lyrics">
+              <div class="submit__lyrics-top" data-aos="fade-up" data-aos-once="true">
+                <h4 class="submit__title"><span>Submit</span> your tracks for Youtube consideration</h4>
+                <span class="submit__subscr" data-num="480000">480 000+</span>
+                <span class="submit__subscr-text">Youtube Subscribers</span>
               </div>
-              <div
-                class="submit__youtube"
-                data-aos="fade-up"
-                data-aos-once="true"
-              >
-                <h4 class="submit__title">
-                  Want to submit <span>lyrics</span>?
-                </h4>
-                <a href="submit-lyrics.html"
-                  ><button class="submit__btn btn-reset main-btn">
-                    Get Started
-                  </button></a
-                >
-              </div>
+              <form class="submit__form" action="#" data-aos="fade-up" data-aos-once="true">
+                <label class="submit__label">
+                  <span class="submit__label-text">Artist or Band Name *</span>
+                  <input class="submit__input input-reset" type="text" name="name" required>
+                </label>
+                <label class="submit__label">
+                  <span class="submit__label-text">Link to Song *</span>
+                  <span class="submit__label-descr">Add a public link to your song for review</span>
+                  <input class="submit__input input-reset" type="text" name="link song" required>
+                </label>
+                <label class="submit__label">
+                  <span class="submit__label-text">Tell about your song submission</span>
+                  <span class="submit__label-descr">Optional</span>
+                  <textarea class="submit__textarea"></textarea>
+                </label>
+                <label class="submit__label">
+                  <span class="submit__label-text">Email *</span>
+                  <input class="submit__input input-reset" type="text" name="email" required>
+                </label>
+                <button class="submit__lyrics-btn btn-reset main-btn">Submit</button>
+              </form>
+            </div>
+            <div class="submit__youtube" data-aos="fade-up" data-aos-once="true">
+              <h4 class="submit__title">Want to submit <span>lyrics</span>?</h4>
+              <button class="submit__btn btn-reset main-btn">Get Started</button>
             </div>
           </div>
-        </section>
-        @include('partials/banner.html')
-      </main>
-
-      <footer class="footer">
-        <div class="container footer__container">
-          <a
-            class="footer__link"
-            href="index.html"
-            data-aos="fade-up"
-            data-aos-once="true"
-            >Toklyrics.com</a
-          >
-          <nav class="footer__nav" data-aos="fade-up" data-aos-once="true">
-            <span class="footer__text">Site Map</span>
-            <ul class="footer__list list-reset">
-              <li class="footer__item">
-                <a class="footer__item-link" href="index.html">Home</a>
-              </li>
-              <li class="footer__item">
-                <a class="footer__item-link" href="submit-lyrics.html"
-                  >Submit Lyrics</a
-                >
-              </li>
-              <li class="footer__item">
-                <a class="footer__item-link footer__item-link--active" href=""
-                  >Submit for Youtube</a
-                >
-              </li>
-            </ul>
-          </nav>
         </div>
-      </footer>
-    </div>
-  </body>
+      </section>
+      @include('partials/banner.html')
+
+
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__container">
+        <a class="footer__link" href="index.html" data-aos="fade-up" data-aos-once="true">Toklyrics.com</a>
+        <nav class="footer__nav" data-aos="fade-up" data-aos-once="true">
+          <span class="footer__text">Site Map</span>
+          <ul class="footer__list list-reset">
+            <li class="footer__item"><a class="footer__item-link" href="index.html">Home</a></li>
+            <li class="footer__item"><a class="footer__item-link" href="submit-lyrics.html">Submit Lyrics</a></li>
+            <li class="footer__item"><a class="footer__item-link footer__item-link--active" href="#">Submit for Youtube</a></li>
+            <li class="footer__item"><a class="footer__item-link" href="trending.html">Weekly trending sounds</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+  </div>
+</body>
+
 </html>

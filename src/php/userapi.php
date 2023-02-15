@@ -114,6 +114,13 @@ if(isset($decoded['op'])) {
 
     }
 
+    if($decoded['op'] == 'get_partners') {
+        $data = $db->run('SELECT `partner_id`, `text` FROM `partners`');
+        $rows = $data->fetchAll();
+        $res = new Status('OK', ['msg' => $rows]);
+        sendAsJson($res);
+    }
+
 
 
 }

@@ -207,12 +207,11 @@ a {
   color: rgba(254, 0, 79, 0.84);
   // background: linear-gradient(95.75deg, rgba(0, 247, 239, 0.74) -9.61%, rgba(254, 0, 79, 0.84) 98.93%);
   background-color: transparent;
-  transition: background-color .3s, color .3s;
+  transition: all .3s !important;
 
   &:hover {
     color: var(--white-color);
     background-color: rgba(254, 0, 79, 0.84);
-    transition: background-color .3s, color .3s;
   }
 
   // animation: .3s anim-bg linear infinite;

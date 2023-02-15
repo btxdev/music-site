@@ -99,6 +99,17 @@
         ENGINE = InnoDB;'
     );
 
+    // создание таблицы partners
+    $db->run('DROP TABLE IF EXISTS `partners`;');
+    $db->run(
+        'CREATE TABLE `partners` (
+          `partner_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+          `text` TINYTEXT NOT NULL ,
+          PRIMARY KEY (`partner_id`)
+        )
+        ENGINE = InnoDB;'
+    );
+
     // связь users и sessions
     $db->run(
         'ALTER TABLE `sessions` ADD FOREIGN KEY (`uuid`)

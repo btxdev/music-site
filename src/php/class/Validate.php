@@ -80,6 +80,8 @@
             // can be NULL
             if($str == '') return new Status('OK', ['returnValue' => '']);
 
+            $str = htmlspecialchars($str);
+
             if(!preg_match('/^([A-Za-zА-ЯЁа-яё ,.]){2,32}$/u', $str))
                 return new Status('WRONG_FORMAT');
             else
@@ -92,6 +94,8 @@
           // can be NULL
           if($str == '') return new Status('OK', ['returnValue' => '']);
 
+          $str = htmlspecialchars($str);
+
           if(mb_strlen($str) >= 2 && mb_strlen($str) < 255) {
             return new Status('OK', ['returnValue' => $str]);
           }
@@ -103,6 +107,8 @@
 
         function lyrics($str) {
           $str = $this->std($str);
+
+          $str = htmlspecialchars($str);
 
           if(mb_strlen($str) >= 2 && mb_strlen($str) < 65565) {
             return new Status('OK', ['returnValue' => $str]);
