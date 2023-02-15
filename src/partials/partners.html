@@ -53,18 +53,16 @@
         </li>
       </ul>
     </div>
-    <div class="wrapper">
+    <div class="wrapper" id="add-new-partner">
       <div class="wrapper__left">
         <picture class="content-picture">
-          <source srcset=".avif" type="image/avif">
-          <source srcset=".webp" type="image/webp">
-          <img loading="lazy" src="." class="image" width="90" height="90" alt="">
+          <img loading="lazy" src="./img/tmp/partner.png" class="image" width="90" height="90" alt="">
         </picture>
       </div>
       <div class="wrapper__right">
-        <textarea class="content-textarea"></textarea>
+        <textarea class="content-textarea" name="partner-textarea"></textarea>
         <div class="wrapper__right-bottom">
-          <button class="btn-reset bottom-line">Add</button>
+          <button class="btn-reset bottom-line" name="add-partner">Add</button>
           <label class="content-file bottom-line">
             <input class="content-file-input input-reset visually-hidden" type="file" id="files" name="Upload icon" data-count="{count} icons selected" multiple>
             <span class="content-file-text">Upload icon</span>

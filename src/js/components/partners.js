@@ -27,8 +27,8 @@ function main() {
       $ul.innerHTML += partnerComponent(item.partner_id, item.text, img);
     });
   });
-  if (vars.loggedIn === true) {
-    $ul.innerHTML += addPartnerComponent();
+  if (vars.loggedIn !== true) {
+    document.querySelector('#add-new-partner').style.display = 'none';
   }
 }
 
@@ -39,20 +39,6 @@ function partnerComponent(id, text, img) {
         <img loading="lazy" src="${img}" class="image" width="90" height="90" alt="" aria-hidden="true">
       </div>
       <span class="partners__text">${text}</span>
-    </li>
-  `;
-}
-
-function addPartnerComponent() {
-  return `
-    <li class="partners__item">
-      <div class="partners__image" id="add_partner_img">
-        <img loading="lazy" src="media/partner_tmp.jpg" class="image" width="90" height="90" alt="" aria-hidden="true">
-      </div>
-      <textarea id="add_partner_textarea"></textarea>
-      <span id="add_partner_upload_img">Upload image</span>
-      <span id="add_partner_remove_img">Remove image</span>
-      <span id="add_partner_save">Save</span>
     </li>
   `;
 }
