@@ -57,18 +57,34 @@ function loadPartners() {
   fetchApi(vars.apiUserUrl, { op: "get_partners" }).then((data) => {
     data?.msg.forEach((item) => {
       const img = `img/partners/partner_${item.partner_id}.png`;
-      $ul.innerHTML += partnerComponent(item.partner_id, item.text, img);
+      addPartnerComponent($ul, item.partner_id, item.text, img);
     });
   });
 }
 
-function partnerComponent(id, text, img) {
-  return `
-    <li class="partners__item" id="partner_id${id}">
-      <div class="partners__image">
-        <img loading="lazy" src="${img}" class="image" width="90" height="90" alt="" aria-hidden="true">
-      </div>
-      <span class="partners__text">${text}</span>
-    </li>
+function removePartner(id) {
+  fetchApi(vars.apiAdminUrl, { op: "remove_partner", partner_id: id}).then((data) => {
+    if(data.status == 'OK') {
+      loadPartners();
+    }
+  });
+}
+
+function addPartnerComponent($parent, id, text, img) {
+  let $component = document.createElement('li');
+  $component.classList.add('partners__item');
+  $component.setAttribute('id', `partner_id${id}`);
+  $component.innerHTML = `
+    <div class="partners__image">
+      <img loading="lazy" src="${img}" class="image" width="90" height="90" alt="" aria-hidden="true">
+    </div>
+    <span class="partners__text">${text}</span>
   `;
+  $parent.appendChild($component);
+  if(vars.loggedIn) {
+    $component.classList.add('removable');
+    $component.addEventListener('click', () => {
+      removePartner(id);
+    });
+  }
 }

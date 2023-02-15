@@ -125,4 +125,7 @@ if(isset($decoded['op'])) {
 
 }
 
+$result = new Status('EMPTY');
+sendAsJson($result);
+
 ?>

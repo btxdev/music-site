@@ -50,6 +50,12 @@ function create_dir($path) {
   }
 }
 
+function remove_file($path) {
+  if(file_exists($path)) {
+    unlink($path);
+  }
+}
+
 // check authorization
 $session_name = $settings->get('session_name');
 $session_hash = $access->getSessionCookie($session_name);
@@ -76,6 +82,7 @@ if(isset($_POST['upload_partner_icon'])) {
 }
 
 if(isset($decoded['op'])) {
+
   if($decoded['op'] == 'add_partner') {
     requireFields(['text']);
     $text = processStatus($validate->text($decoded['text']));
@@ -99,6 +106,24 @@ if(isset($decoded['op'])) {
     $result = new Status('OK');
     sendAsJson($result);
   }
+
+  if($decoded['op'] == 'remove_partner') {
+    requireFields(['partner_id']);
+    $id = intval($decoded['partner_id']);
+    // remove record from db
+    $db->run(
+        'DELETE FROM `partners` WHERE `partner_id` = :id',
+        [':id' => $id]
+    );
+    // // remove file
+    $dir = $partners_images_dir;
+    create_dir($dir);
+    remove_file($dir.'partner_'.strval($id).'.png');
+
+    $result = new Status('OK');
+    sendAsJson($result);
+  }
+
 }
 
 ?>

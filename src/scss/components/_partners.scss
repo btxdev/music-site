@@ -160,3 +160,12 @@
     }
   }
 }
+
+.removable {
+  transition: opacity .3s;
+  opacity: 1;
+  cursor: pointer;
+}
+.removable:hover {
+  opacity: 0.5;
+}
