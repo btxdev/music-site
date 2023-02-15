@@ -1,5 +1,6 @@
 import vars from "../_vars.js";
 import { fetchApi } from "../functions/fetchApi";
+import { uploadFile } from "../functions/uploadFile";
 import { loggedIn } from "../functions/loggedIn";
 
 const usedInComponents = ["/", "index", "", "trending", "tracks"];
@@ -18,18 +19,47 @@ if (usedInComponents.includes(currentFilename)) {
 }
 
 function main() {
+  const $addPartner = document.querySelector('#add-new-partner');
+  loadPartners();
+  if (vars.loggedIn !== true) {
+    $addPartner.style.display = 'none';
+  }
+  else {
+    // 'add' button
+    $addPartner.querySelector('button[name="add-partner"]').addEventListener('click', () => {
+      const text = $addPartner.querySelector('textarea').value;
+      fetchApi(vars.apiAdminUrl, {op: 'add_partner', text: text}).then((data) => {
+        if(data.status == 'OK') {
+          loadPartners();
+        }
+      });
+    })
+    // file uploading
+    $addPartner.querySelector('#files').addEventListener('change', (e) => {
+      const files = e.target.files;
+      if(files.length === 0) return;
+      const file = files[0];
+      const data = new FormData();
+      data.append('image', file);
+      data.append('upload_partner_icon', true);
+      uploadFile(vars.apiAdminUrl, data).then(data => {
+        $addPartner.querySelector('img').src = './img/tmp/partner.png?t=' + new Date().getTime();
+        console.log(data);
+      });
+    });
+  }
+}
+
+function loadPartners() {
   const $partners = document.querySelector(".partners__content");
-  const $ul = $partners.querySelector(".partners__list");
+  const $ul = $partners.querySelector('.partners__list');
   $ul.innerHTML = "";
   fetchApi(vars.apiUserUrl, { op: "get_partners" }).then((data) => {
     data?.msg.forEach((item) => {
-      const img = `;media/partner_${item.partner_id}.jpg`;
+      const img = `img/partners/partner_${item.partner_id}.png`;
       $ul.innerHTML += partnerComponent(item.partner_id, item.text, img);
     });
   });
-  if (vars.loggedIn !== true) {
-    document.querySelector('#add-new-partner').style.display = 'none';
-  }
 }
 
 function partnerComponent(id, text, img) {
