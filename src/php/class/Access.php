@@ -2,8 +2,8 @@
 
 // класс предоставляет методы для проверки и выдачи доступа
 
-include_once __DIR__.'/Admin.php';
-include_once __DIR__.'/Status.php';
+require_once __DIR__.'/Admin.php';
+require_once __DIR__.'/Status.php';
 
 class Access extends Admin {
 
@@ -21,8 +21,8 @@ class Access extends Admin {
 
     function getUserIdBySessionHash($hash) {
         $result = $this->fetch(
-            'SELECT `uuid` 
-            FROM `sessions` 
+            'SELECT `uuid`
+            FROM `sessions`
             WHERE `sesshash` LIKE :hash',
             [
                 ':hash' => $hash
@@ -43,7 +43,7 @@ class Access extends Admin {
         // создание записи в БД
         $hash = $this->generateSessionHash();
         $this->run(
-            'INSERT INTO sessions 
+            'INSERT INTO sessions
             (sesshash, uuid, created)
             VALUES (:sesshash, :uuid, :created)',
             [
@@ -86,7 +86,7 @@ class Access extends Admin {
     function login($username, $password_raw) {
 
         $uuid = $this->getUserId($username);
-        if($uuid == false) 
+        if($uuid == false)
             return new Status('USER_NOT_FOUND');
 
         $data = $this->fetch(
@@ -95,7 +95,7 @@ class Access extends Admin {
                 ':uuid' => $uuid
             ]
         );
-        if($data == false) 
+        if($data == false)
             return new Status('USER_NOT_FOUND');
 
         $hash = $data['password'];

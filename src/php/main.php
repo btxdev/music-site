@@ -13,7 +13,7 @@
   }
 
   // зависимости
-  include_once __DIR__.'/class/LoadSettings.php';
+  require_once __DIR__.'/class/LoadSettings.php';
 
   // настройки из файла
   $settings = new LoadSettings();

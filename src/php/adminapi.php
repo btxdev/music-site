@@ -1,7 +1,7 @@
 <?php
 
-include_once __DIR__.'/main.php';
-include_once __DIR__.'/include_db.php';
+require_once __DIR__.'/main.php';
+require_once __DIR__.'/include_db.php';
 
 $partner_tmp_image_dir = __dir__.'/../img/tmp/';
 $partner_tmp_image_fname = 'partner.png';

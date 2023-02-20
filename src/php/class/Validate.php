@@ -1,6 +1,6 @@
 <?php
 
-    include_once __DIR__.'/Status.php';
+    require_once __DIR__.'/Status.php';
 
     class Validate {
 

@@ -3,7 +3,7 @@
 // класс расширяет функционал класса Database для работы с БД
 // класс предоставляет методы для управления сайтом
 
-include_once __DIR__.'/Database.php';
+require_once __DIR__.'/Database.php';
 
 class Admin extends Database {
 
@@ -14,12 +14,12 @@ class Admin extends Database {
     function relation_alter($new_table, $table1, $table2, $key1, $key2) {
         // установка связи между таблицами table1 и table2_table1 по индексу key1
         $this->run(
-            "ALTER TABLE `{$new_table}` ADD FOREIGN KEY (`{$key1}`) 
+            "ALTER TABLE `{$new_table}` ADD FOREIGN KEY (`{$key1}`)
             REFERENCES `{$table1}`(`{$key1}`) ON DELETE CASCADE ON UPDATE CASCADE;"
         );
         // установка связи между таблицами table2 и table2_table1 по индексу key2
         $this->run(
-            "ALTER TABLE `{$new_table}` ADD FOREIGN KEY (`{$key2}`) 
+            "ALTER TABLE `{$new_table}` ADD FOREIGN KEY (`{$key2}`)
             REFERENCES `{$table2}`(`{$key2}`) ON DELETE CASCADE ON UPDATE CASCADE;"
         );
     }
@@ -32,10 +32,10 @@ class Admin extends Database {
 
         // создание таблицы
         $this->run(
-            "CREATE TABLE `{$new_table}` ( 
-                `{$key1}` INT UNSIGNED NOT NULL , 
-                `{$key2}` INT UNSIGNED NOT NULL , 
-                PRIMARY KEY (`{$key1}`) , 
+            "CREATE TABLE `{$new_table}` (
+                `{$key1}` INT UNSIGNED NOT NULL ,
+                `{$key2}` INT UNSIGNED NOT NULL ,
+                PRIMARY KEY (`{$key1}`) ,
                 INDEX `{$key2}`(`{$key2}`)
             )
             ENGINE = InnoDB;",
@@ -54,17 +54,17 @@ class Admin extends Database {
 
         // создание таблицы
         $this->run(
-            "CREATE TABLE `{$new_table}` ( 
-                `{$key1}` INT UNSIGNED NOT NULL , 
-                `{$key2}` INT UNSIGNED NOT NULL , 
+            "CREATE TABLE `{$new_table}` (
+                `{$key1}` INT UNSIGNED NOT NULL ,
+                `{$key2}` INT UNSIGNED NOT NULL ,
                 PRIMARY KEY (`{$key2}`)
-            ) 
+            )
             ENGINE = InnoDB;",
         );
 
         // установка связей
         $this->relation_alter($new_table, $table1, $table2, $key1, $key2);
-        
+
     }
 
     // связь многие ко многим
@@ -76,11 +76,11 @@ class Admin extends Database {
 
         // создание таблицы
         $this->run(
-            "CREATE TABLE `{$new_table}` ( 
-                `{$key1}` INT UNSIGNED NOT NULL , 
-                `{$key2}` INT UNSIGNED NOT NULL , 
+            "CREATE TABLE `{$new_table}` (
+                `{$key1}` INT UNSIGNED NOT NULL ,
+                `{$key2}` INT UNSIGNED NOT NULL ,
                 INDEX `{$index_name}` (`{$key1}`, `{$key2}`)
-            ) 
+            )
             ENGINE = InnoDB;",
         );
 
@@ -89,12 +89,12 @@ class Admin extends Database {
 
         // // установка связи между таблицами table1 и table2_table1 по индексу key1
         // $this->run(
-        //     "ALTER TABLE `{$new_table}` ADD CONSTRAINT `{$key1}` FOREIGN KEY (`{$key1}`) 
+        //     "ALTER TABLE `{$new_table}` ADD CONSTRAINT `{$key1}` FOREIGN KEY (`{$key1}`)
         //     REFERENCES `{$table1}`(`{$key1}`) ON DELETE CASCADE ON UPDATE CASCADE;"
         // );
         // // установка связи между таблицами table2 и table2_table1 по индексу key2
         // $this->run(
-        //     "ALTER TABLE `{$new_table}` ADD CONSTRAINT `{$key2}` FOREIGN KEY (`{$key2}`) 
+        //     "ALTER TABLE `{$new_table}` ADD CONSTRAINT `{$key2}` FOREIGN KEY (`{$key2}`)
         //     REFERENCES `{$table2}`(`{$key2}`) ON DELETE CASCADE ON UPDATE CASCADE;"
         // );
 
@@ -121,7 +121,7 @@ class Admin extends Database {
         $salt = $this->salt();
         // создание записи в БД
         $this->run(
-            'INSERT INTO users 
+            'INSERT INTO users
             (username, password, salt, reg_date)
             VALUES (:username, :password, :salt, :reg_date)',
             [
