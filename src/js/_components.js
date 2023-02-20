@@ -8,3 +8,5 @@ import "./components/logout";
 import "./components/submit-lyrics";
 import "./components/submit-lyrics-yt";
 import "./components/partners";
+import "./components/index";
+import "./components/categories";

@@ -121,6 +121,13 @@ if(isset($decoded['op'])) {
         sendAsJson($res);
     }
 
+    if($decoded['op'] == 'get_categories') {
+        $data = $db->run('SELECT * FROM `categories`');
+        $rows = $data->fetchAll();
+        $res = new Status('OK', ['msg' => $rows]);
+        sendAsJson($res);
+    }
+
 
 
 }

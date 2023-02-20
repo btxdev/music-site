@@ -3,20 +3,15 @@ import { fetchApi } from "../functions/fetchApi";
 import { uploadFile } from "../functions/uploadFile";
 import { loggedIn } from "../functions/loggedIn";
 
-const usedInComponents = ["/", "index", "", "trending", "tracks"];
-const currentFilename = window.location.pathname.split("/").pop().split(".")[0];
-
-if (usedInComponents.includes(currentFilename)) {
-  document.addEventListener("DOMContentLoaded", () => {
-    loggedIn()
-      .then(() => {
-        main();
-      })
-      .catch(() => {
-        main();
-      });
-  });
-}
+document.addEventListener("DOMContentLoaded", () => {
+  loggedIn()
+    .then(() => {
+      main();
+    })
+    .catch(() => {
+      main();
+    });
+});
 
 function main() {
   const $addPartner = document.querySelector('#add-new-partner');

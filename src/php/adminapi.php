@@ -124,6 +124,23 @@ if(isset($decoded['op'])) {
     sendAsJson($result);
   }
 
+  if($decoded['op'] == 'add_category') {
+    requireFields(['title', 'link']);
+    $title = $decoded['title'];
+    $link = $decoded['link'];
+    // add record to db
+    $db->run(
+        'INSERT INTO `categories` (`title`, `link`) VALUES (:title, :link)',
+        [
+          ':title' => $title,
+          ':link' => $link
+        ]
+    );
+
+    $result = new Status('OK');
+    sendAsJson($result);
+  }
+
 }
 
 ?>
