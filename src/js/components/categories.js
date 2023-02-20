@@ -43,7 +43,7 @@ function loadCategories() {
   $ul.innerHTML = "";
   fetchApi(vars.apiUserUrl, { op: "get_categories" }).then((data) => {
     data?.msg.forEach((item) => {
-      const id = item.category_id;
+      const id = item.cat_id;
       const category = item.title;
       const link = item.link;
       addCategoryComponent($ul, id, category, link);
@@ -52,7 +52,24 @@ function loadCategories() {
 }
 
 function removeCategory(id) {
-  fetchApi(vars.apiAdminUrl, { op: "remove_category", category_id: id}).then((data) => {
+  fetchApi(vars.apiAdminUrl, { op: "remove_category", cat_id: id}).then((data) => {
+    if(data.status == 'OK') {
+      loadCategories();
+    }
+  });
+}
+
+function saveCategory(id) {
+  const $container = document.querySelector('#category_id' + String(id));
+  const title = $container.querySelector('input[name=category-edit]').value;
+  const link = $container.querySelector('input[name=link-edit]').value;
+  const data = {
+    op: "edit_category",
+    cat_id: id,
+    title: title,
+    link: link
+  };
+  fetchApi(vars.apiAdminUrl, data).then((data) => {
     if(data.status == 'OK') {
       loadCategories();
     }
@@ -63,17 +80,58 @@ function addCategoryComponent($parent, id, text, link) {
   const $component = document.createElement('li');
   $component.classList.add('trend__item');
   $component.setAttribute('id', `category_id${id}`);
-  $component.innerHTML = `
-    <a href="category/${link}"><span class="trend__song">${text}</span></a>
-  `;
+  $component.style.border = '1px solid black';
+  $component.style.padding = '10px';
   if(vars.loggedIn) {
-    const $a = document.createElement('a');
-    $a.innerText = 'remove category';
-    $component.prepend($a);
-    $a.classList.add('removable');
-    $a.addEventListener('click', () => {
+    $component.innerHTML = `
+      <a href="category/${link}"><span class="trend__song">${text}</span></a>
+      <label class="submit__label">
+        <span class="submit__label-text">Category name</span>
+        <input
+          value="${text}"
+          class="submit__input input-reset"
+          type="text"
+          name="category-edit"
+          required
+        />
+      </label>
+      <label class="submit__label">
+        <span class="submit__label-text">Category URL</span>
+        <input
+          value="${link}"
+          class="submit__input input-reset"
+          type="text"
+          name="link-edit"
+          required
+        />
+      </label>
+    `;
+    const $btnSave = document.createElement('button');
+    $btnSave.classList.add('btn-reset', 'bottom-line');
+    $btnSave.setAttribute('name', 'save-category');
+    $btnSave.innerText = 'Save';
+    const $btnRemove = document.createElement('button');
+    $btnRemove.classList.add('btn-reset', 'bottom-line');
+    $btnRemove.setAttribute('name', 'remove-category');
+    $btnRemove.innerText = 'Remove';
+    $component.appendChild(document.createElement('br'));
+    $component.appendChild(document.createElement('br'));
+    $component.appendChild($btnSave);
+    $component.appendChild(document.createElement('br'));
+    $component.appendChild(document.createElement('br'));
+    $component.appendChild($btnRemove);
+    $component.appendChild(document.createElement('br'));
+    $btnSave.addEventListener('click', () => {
+      saveCategory(id);
+    });
+    $btnRemove.addEventListener('click', () => {
       removeCategory(id);
     });
+  }
+  else {
+    $component.innerHTML = `
+      <a href="category/${link}"><span class="trend__song">${text}</span></a>
+    `;
   }
   $parent.appendChild($component);
 }

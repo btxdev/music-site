@@ -141,6 +141,38 @@ if(isset($decoded['op'])) {
     sendAsJson($result);
   }
 
+  if($decoded['op'] == 'remove_category') {
+    requireFields(['cat_id']);
+    $id = intval($decoded['cat_id']);
+    // remove record from db
+    $db->run(
+        'DELETE FROM `categories` WHERE `cat_id` = :id',
+        [':id' => $id]
+    );
+
+    $result = new Status('OK');
+    sendAsJson($result);
+  }
+
+  if($decoded['op'] == 'edit_category') {
+    requireFields(['cat_id', 'title', 'link']);
+    $id = intval($decoded['cat_id']);
+    $title = $decoded['title'];
+    $link = $decoded['link'];
+    // update record in db
+    $db->run(
+        'UPDATE `categories` SET `title` = :title, `link` = :link WHERE `cat_id` = :id',
+        [
+          ':id' => $id,
+          ':title' => $title,
+          ':link' => $link
+        ]
+    );
+
+    $result = new Status('OK');
+    sendAsJson($result);
+  }
+
 }
 
 ?>
