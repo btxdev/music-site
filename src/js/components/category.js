@@ -3,6 +3,7 @@ import { fetchApi } from "../functions/fetchApi";
 
 const isCategory = window.location.pathname.split("/")[1] == 'category';
 const currentFilename = window.location.pathname.split("/").pop().split(".")[0];
+const url = decodeURI(currentFilename);
 
 let currentCategoryId = -1;
 
@@ -31,6 +32,7 @@ function loadSongs() {
     }
     currentCategoryId = data.msg.cat_id;
     $title.innerText = data.msg.title;
+    document.title = data.msg.title + ' :: Toklyrics';
     data.msg.songs.forEach(item => {
       const id = item.song_id;
       const artist = item.artist;

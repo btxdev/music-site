@@ -11,3 +11,5 @@ import "./components/partners";
 import "./components/index";
 import "./components/categories";
 import "./components/category";
+import "./components/artist";
+import "./components/song";
