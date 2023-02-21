@@ -128,6 +128,36 @@ if(isset($decoded['op'])) {
         sendAsJson($res);
     }
 
+    if($decoded['op'] == 'get_category_data') {
+        requireFields(['url']);
+        $href = htmlspecialchars($decoded['url']);
+        // get category id and title
+        $data = $db->fetch('SELECT `cat_id`, `title` FROM `categories` WHERE `link` = :link LIMIT 1',
+        [
+          ':link' => $href
+        ]
+        );
+        // empty
+        if(!$data) {
+          sendAsJson(new Status('EMPTY'));
+          exit();
+        }
+        $id = intval($data['cat_id']);
+        $title = $data['title'];
+        // get songs from category
+        $rows = $db->fetchAll('SELECT * FROM `songs_categories` WHERE `cat_id` = :cat_id',
+        [
+          ':cat_id' => $id
+        ]
+        );
+        // output
+        $res = new Status('OK', ['msg' => [
+          'cat_id' => $id,
+          'title' => $title,
+          'songs' => $rows
+        ]]);
+        sendAsJson($res);
+    }
 
 
 }

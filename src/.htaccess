@@ -2,22 +2,14 @@ Options -Indexes -MultiViews
 
 RewriteEngine on
 
-# Remove ".html" extension on "direct" (not rewritten) requests only
+# ЧПУ
+RewriteRule ^category/([-\w]+)$ category.php?q=$1 [NC,L]
+
+# почистить расширение (redirect)
 RewriteCond %{THE_REQUEST} [A-Z]{3,7}\s/[^?]+\.html(?:\?|\s|$) [NC]
 RewriteRule (.+)\.html$ /$1 [R=301,L,NC]
 
-# Clean URL (category)
+# вставить html (rewrite)
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^category/([A-Za-z0-9_]+)$ /category.php?q=$1 [L,QSA,NC]
-
-# add php extension
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}\.php -f
-RewriteRule ^(.*)$ $1.php [NC,L]
-
-# add html extension
-RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.html -f
 RewriteRule ^([^\.]+)$ $1.html [NC,L]
-
-

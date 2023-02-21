@@ -10,3 +10,4 @@ import "./components/submit-lyrics-yt";
 import "./components/partners";
 import "./components/index";
 import "./components/categories";
+import "./components/category";
