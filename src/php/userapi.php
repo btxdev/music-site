@@ -145,11 +145,23 @@ if(isset($decoded['op'])) {
         $id = intval($data['cat_id']);
         $title = $data['title'];
         // get songs from category
-        $rows = $db->fetchAll('SELECT * FROM `songs_categories` WHERE `cat_id` = :cat_id',
+        $rows = $db->fetchAll('SELECT
+          `songs_categories`.`song_id`,
+          `songs`.`artist`,
+          `songs`.`title`,
+          `songs`.`album`
+           FROM `songs_categories`
+           JOIN `songs` ON `songs`.`song_id` = `songs_categories`.`song_id`
+           WHERE `songs_categories`.`cat_id` = :cat_id',
         [
           ':cat_id' => $id
         ]
         );
+        // get data about each song
+        // foreach ($rows as $item) {
+        //   $song_id = $item['song_id'];
+        //   $data =
+        // }
         // output
         $res = new Status('OK', ['msg' => [
           'cat_id' => $id,

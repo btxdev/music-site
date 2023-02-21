@@ -6,8 +6,6 @@
   }
 
   $category = htmlspecialchars($_GET['q']);
-  // echo('link is ');
-  // echo($category);
 
   include('trending.html');
 
