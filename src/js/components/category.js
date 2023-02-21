@@ -45,7 +45,7 @@ function addSongComponent($ul, id, artist, title) {
   $component.classList.add('trend__item');
   $component.setAttribute('id', `song_id${id}`);
   $component.innerHTML = `
-    <a class="trend__author" href="/author/${artist}">${artist}</a>
+    <a class="trend__author" href="/artist/${artist}">${artist}</a>
     <a href="/song/${artist} - ${title}"><span class="trend__song">${artist} - ${title}</span></a>
   `;
   $ul.appendChild($component);

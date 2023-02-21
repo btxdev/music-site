@@ -3,7 +3,9 @@ Options -Indexes -MultiViews
 RewriteEngine on
 
 # ЧПУ
-RewriteRule ^category/([-\w]+)$ category.php?q=$1 [NC,L]
+RewriteRule ^category/([-\w]+)$ clean.php?category=$1 [NC,L]
+RewriteRule ^artist/([\w\%\d\s]+)$ clean.php?artist=$1 [NC,L]
+RewriteRule ^song/([-\w\%\d\s]+)$ clean.php?song=$1 [NC,L]
 
 # почистить расширение (redirect)
 RewriteCond %{THE_REQUEST} [A-Z]{3,7}\s/[^?]+\.html(?:\?|\s|$) [NC]
