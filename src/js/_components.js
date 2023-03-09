@@ -13,3 +13,5 @@ import "./components/categories";
 import "./components/category";
 import "./components/artist";
 import "./components/song";
+import "./components/upload";
+import "./components/search";
