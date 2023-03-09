@@ -15,6 +15,7 @@ class Database extends PDO {
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
         $this->instance = new PDO($dsn, $user, $password, $options);
+        // parent::__construct($dsn, $user, $password, $options);
     }
 
     // выполнить запрос
@@ -36,7 +37,7 @@ class Database extends PDO {
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
-    
+
     // генератор случайных строк с указанной длинной
     function strgen($alphabet = '0123456789abcdef', $len = 8) {
         $alen = strlen($alphabet) - 1;

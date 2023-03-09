@@ -12,6 +12,10 @@ function sendAsJson($data) {
   exit($data->json());
 }
 
+function clamp($num, $min, $max) {
+  return min(max($num, $min), $max);
+}
+
 if ($contentType === "application/json") {
     // получение данных POST формы
     $content = trim(file_get_contents("php://input"));
@@ -171,6 +175,38 @@ if(isset($decoded['op'])) {
         sendAsJson($res);
     }
 
+    if($decoded['op'] == 'search') {
+        requireFields(['query']);
+        $user_query = htmlspecialchars($decoded['query']);
+
+        $count = 10;
+        if(isset($decoded['count'])) {
+          $count = clamp(intval($decoded['count']), 10, 50);
+        }
+
+        $page = 1;
+        if(isset($decoded['page'])) {
+          $page = clamp(intval($decoded['page']), 1, 65535);
+        }
+
+        $offset = ($page - 1) * $count;
+
+        $query_1 = " SOUNDEX(`artist`) LIKE SOUNDEX('$user_query') OR SOUNDEX(`title`) LIKE SOUNDEX('$user_query') ";
+        $query_2 = " `artist` LIKE '%$user_query%' OR `title` LIKE '%$user_query%' ";
+        $query_3 = " CONCAT(`artist`, ' ', `title`) LIKE '%$user_query%' OR CONCAT(`artist`, ' - ', `title`) LIKE '%$user_query%' ";
+        $query_4 = " `lyrics` LIKE '%$user_query%' ";
+        $query = " WHERE $query_1 OR $query_2 OR $query_3 OR $query_4 ";
+        $sql = "SELECT `song_id`, `artist`, `title`, `album`, SUBSTRING(`lyrics`, 1, 256) AS `lyrics` FROM `songs` $query LIMIT :offset, :count";
+
+        $rows = $db->fetchAll($sql, [
+          ':offset' => $offset,
+          ':count' => $count
+        ]);
+
+        // output
+        $res = new Status('OK', ['msg' => $rows]);
+        sendAsJson($res);
+    }
 
 }
 
