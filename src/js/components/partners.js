@@ -4,6 +4,8 @@ import { uploadFile } from "../functions/uploadFile";
 import { loggedIn } from "../functions/loggedIn";
 
 document.addEventListener("DOMContentLoaded", () => {
+  // has partners component
+  if(!document.querySelector(".partners__content")) return;
   loggedIn()
     .then(() => {
       main();
