@@ -30,4 +30,16 @@
     exit();
   }
 
+  if(isset($_GET['search'])) {
+    $query = htmlspecialchars($_GET['search']);
+    $page = intval($_GET['page']);
+    if($page < 1) {
+      header('Location: /');
+      exit();
+    }
+    include('results-search.html');
+    exit();
+  }
+
+
 ?>
