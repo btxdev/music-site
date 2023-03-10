@@ -35,4 +35,28 @@
     line-height: 163.5%;
     letter-spacing: -0.035em;
   }
+
 }
+
+// .hero__label {
+//   position: relative;
+//   width: 74%;
+
+//   @include mobile {
+//     width: 100%;
+//   }
+
+//   &::before {
+//     content: "";
+//     position: absolute;
+//     left: 18px;
+//     top: 50%;
+//     width: 15px;
+//     height: 15px;
+//     background-image: url('../img/search.svg');
+//     background-position: center;
+//     background-repeat: no-repeat;
+//     background-size: contain;
+//     transform: translateY(-50%);
+//   }
+// }

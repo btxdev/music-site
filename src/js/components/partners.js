@@ -52,10 +52,16 @@ function loadPartners() {
   const $ul = $partners.querySelector('.partners__list');
   $ul.innerHTML = "";
   fetchApi(vars.apiUserUrl, { op: "get_partners" }).then((data) => {
+    let hasPartner = false;
     data?.msg.forEach((item) => {
+      hasPartner = true;
       const img = `img/partners/partner_${item.partner_id}.png`;
       addPartnerComponent($ul, item.partner_id, item.text, img);
     });
+    // hide if not authorized
+    if(!hasPartner && vars.loggedIn !== true) {
+      document.querySelector('.partners .container').style.display = 'none';
+    }
   });
 }
 

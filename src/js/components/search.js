@@ -42,6 +42,7 @@ function addSong($parent, title, description, hidden = false) {
   }
   else {
     $songElement.setAttribute('href', 'song/' + title);
+    $songElement.classList.add('hero__dropdown-item');
   }
   $songElement.innerHTML = `
     <strong class="hero__dropdown-title">${title}</strong>
