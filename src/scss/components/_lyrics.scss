@@ -26,6 +26,19 @@
     letter-spacing: -0.04em;
   }
 
+    &__remove {
+      font-family: "Eurostile", sans-serif;
+      font-size: 14px;
+      line-height: 163.5%;
+      letter-spacing: -0.04em;
+      margin-top: 20px;
+      display: none;
+      cursor: pointer;
+    }
+    &__remove:hover {
+      opacity: 0.5;
+    }
+
   &__track {
     margin: 0;
     margin-bottom: 50px;

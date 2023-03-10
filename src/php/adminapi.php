@@ -207,6 +207,22 @@ if(isset($decoded['op'])) {
     sendAsJson($result);
   }
 
+  // remove song permanently
+  if($decoded['op'] == 'remove_song') {
+    requireFields(['song_id']);
+    $song_id = intval($decoded['song_id']);
+    // add record to db
+    $db->run(
+        'DELETE FROM `songs` WHERE `song_id` LIKE :song_id',
+        [
+          ':song_id' => $song_id
+        ]
+    );
+
+    $result = new Status('OK');
+    sendAsJson($result);
+  }
+
 }
 
 ?>

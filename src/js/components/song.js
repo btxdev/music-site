@@ -7,6 +7,7 @@ const url = decodeURI(currentFilename);
 
 const $artist = document.querySelector('.lyrics__artist');
 const $track = document.querySelector('.lyrics__track');
+const $remove = document.querySelector('.lyrics__remove');
 const $lyrics = document.querySelector('.lyrics__inner');
 const $authors = document.querySelector('.lyrics__authors');
 const $prev = document.querySelector('.lyrics__prev');
@@ -24,6 +25,11 @@ function main() {
 
       $artist.innerText = song.artist;
       $artist.setAttribute('href', `/artist/${song.artist}`);
+
+      $remove.style.display = 'block';
+      $remove.addEventListener('click', function() {
+        removeSong(song.song_id);
+      });
 
       $track.innerText = `${song.artist} - ${song.title}`;
 
@@ -66,5 +72,13 @@ function main() {
   })
   .catch(error => {
     window.location.replace('/');
+  });
+}
+
+function removeSong(id) {
+  fetchApi(vars.apiAdminUrl, {op: 'remove_song', song_id: id}).then((data) => {
+    if(data.status == 'OK') {
+      window.history.go(-1);
+    }
   });
 }
