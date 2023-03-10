@@ -1,5 +1,6 @@
 import vars from "../_vars.js";
 import { fetchApi } from "../functions/fetchApi";
+import { loggedIn } from "../functions/loggedIn";
 
 const isSong = window.location.pathname.split("/")[1] == 'song';
 const currentFilename = window.location.pathname.split("/").pop().split(".")[0];
@@ -14,7 +15,15 @@ const $prev = document.querySelector('.lyrics__prev');
 const $next = document.querySelector('.lyrics__next');
 
 if (isSong) {
-  document.addEventListener("DOMContentLoaded", main);
+  document.addEventListener("DOMContentLoaded", function() {
+    loggedIn()
+    .then(() => {
+      main();
+    })
+    .catch(() => {
+      main();
+    });
+  });
 }
 
 function main() {
@@ -26,10 +35,12 @@ function main() {
       $artist.innerText = song.artist;
       $artist.setAttribute('href', `/artist/${song.artist}`);
 
-      $remove.style.display = 'block';
-      $remove.addEventListener('click', function() {
-        removeSong(song.song_id);
-      });
+      if (vars.loggedIn === true) {
+        $remove.style.display = 'block';
+        $remove.addEventListener('click', function() {
+          removeSong(song.song_id);
+        });
+      }
 
       $track.innerText = `${song.artist} - ${song.title}`;
 
