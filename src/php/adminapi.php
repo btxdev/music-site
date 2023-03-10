@@ -190,6 +190,23 @@ if(isset($decoded['op'])) {
     sendAsJson($result);
   }
 
+  if($decoded['op'] == 'remove_song_from_category') {
+    requireFields(['cat_id', 'song_id']);
+    $cat_id = intval($decoded['cat_id']);
+    $song_id = intval($decoded['song_id']);
+    // add record to db
+    $db->run(
+        'DELETE FROM `songs_categories` WHERE `song_id` LIKE :song_id AND `cat_id` LIKE :cat_id',
+        [
+          ':song_id' => $song_id,
+          ':cat_id' => $cat_id
+        ]
+    );
+
+    $result = new Status('OK');
+    sendAsJson($result);
+  }
+
 }
 
 ?>

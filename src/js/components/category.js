@@ -136,5 +136,19 @@ function addSongComponent($ul, id, artist, title) {
     <a class="trend__author" href="/artist/${artist}">${artist}</a>
     <a href="/song/${artist} - ${title}"><span class="trend__song">${artist} - ${title}</span></a>
   `;
+  if (vars.loggedIn === true) {
+    const $removeBtn = document.createElement('p');
+    $removeBtn.style.cursor = 'pointer';
+    $removeBtn.innerText = 'Remove';
+    $component.appendChild($removeBtn);
+    $removeBtn.addEventListener('click', function() {
+      // remove song from category
+      fetchApi(vars.apiAdminUrl, {op: 'remove_song_from_category', cat_id: currentCategoryId, song_id: id}).then((data) => {
+        if(data.status == 'OK') {
+          loadSongs();
+        }
+      });
+    });
+  }
   $ul.appendChild($component);
 }
