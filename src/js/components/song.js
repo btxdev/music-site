@@ -5,7 +5,12 @@ const isSong = window.location.pathname.split("/")[1] == 'song';
 const currentFilename = window.location.pathname.split("/").pop().split(".")[0];
 const url = decodeURI(currentFilename);
 
-let currentCategoryId = -1;
+const $artist = document.querySelector('.lyrics__artist');
+const $track = document.querySelector('.lyrics__track');
+const $lyrics = document.querySelector('.lyrics__inner');
+const $authors = document.querySelector('.lyrics__authors');
+const $prev = document.querySelector('.lyrics__prev');
+const $next = document.querySelector('.lyrics__next');
 
 if (isSong) {
   document.addEventListener("DOMContentLoaded", main);
@@ -13,44 +18,53 @@ if (isSong) {
 
 function main() {
   document.title = url + ' :: Toklyrics';
-  // window.location.replace(url);
+  fetchApi(vars.apiUserUrl, {op: 'get_song_data', url: url}).then((data) => {
+    if(data.status == 'OK') {
+      const song = data.msg;
 
-  // loadSong();
+      $artist.innerText = song.artist;
+      $artist.setAttribute('href', `/artist/${song.artist}`);
+
+      $track.innerText = `${song.artist} - ${song.title}`;
+
+      $lyrics.innerHTML = '<span data-aos="fade-up" data-aos-once="true">Lyrics</span>';
+      // $lyrics.innerHTML += song.lyrics.replace(/\n/g, "<br />");
+      const lines = song.lyrics.split('\n');
+      for(const line of lines) {
+        const $line = document.createElement('p');
+        $line.setAttribute('class', 'lyrics__text');
+        $line.setAttribute('data-aos', 'fade-up');
+        $line.setAttribute('data-aos-once', 'true');
+        $line.innerText = line;
+        $lyrics.appendChild($line);
+      }
+
+      $authors.innerHTML = '';
+      $authors.innerHTML += `<a class="lyrics__authors-link" href="/artist/${song.artist}">${song.artist.toUpperCase()}</a>`;
+      $authors.innerHTML += `<a class="lyrics__authors-link" href="/song/${song.artist} - ${song.title}">${song.title.toUpperCase()}</a>`;
+      $authors.innerHTML += `<a class="lyrics__authors-link">${song.album.toUpperCase()}</a>`;
+
+      if(song.prev_song.length > 0) {
+        $prev.innerText = song.prev_song;
+        $prev.setAttribute('href', '/song/' + song.prev_song);
+      }
+      else {
+        $prev.style.visibility = 'hidden';
+      }
+      if(song.next_song.length > 0) {
+        $next.innerText = song.next_song;
+        $next.setAttribute('href', '/song/' + song.next_song);
+      }
+      else {
+        $next.style.visibility = 'hidden';
+      }
+
+    }
+    else {
+      window.location.replace('/');
+    }
+  })
+  .catch(error => {
+    window.location.replace('/');
+  });
 }
-
-// function loadSongs() {
-//   const $title = document.querySelector('.trend__title');
-//   const $ul = document.querySelector('.trend__list');
-//   $ul.innerHTML = "";
-//   fetchApi(vars.apiUserUrl, {
-//     op: "get_category_data",
-//     url: currentFilename
-//   })
-//   .then((data) => {
-//     if(data.status == 'EMPTY') {
-//       document.location.replace('/categories.html');
-//     }
-//     if(data.status != 'OK') {
-//       return;
-//     }
-//     currentCategoryId = data.msg.cat_id;
-//     $title.innerText = data.msg.title;
-//     data.msg.songs.forEach(item => {
-//       const id = item.song_id;
-//       const artist = item.artist;
-//       const title = item.title;
-//       addSongComponent($ul, id, artist, title);
-//     })
-//   })
-// }
-
-// function addSongComponent($ul, id, artist, title) {
-//   const $component = document.createElement('li');
-//   $component.classList.add('trend__item');
-//   $component.setAttribute('id', `song_id${id}`);
-//   $component.innerHTML = `
-//     <a class="trend__author" href="/artist/${artist}">${artist}</a>
-//     <a href="/song/${artist} - ${title}"><span class="trend__song">${artist} - ${title}</span></a>
-//   `;
-//   $ul.appendChild($component);
-// }

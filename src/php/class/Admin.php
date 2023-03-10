@@ -87,16 +87,12 @@ class Admin extends Database {
         // установка связей
         $this->relation_alter($new_table, $table1, $table2, $key1, $key2);
 
-        // // установка связи между таблицами table1 и table2_table1 по индексу key1
-        // $this->run(
-        //     "ALTER TABLE `{$new_table}` ADD CONSTRAINT `{$key1}` FOREIGN KEY (`{$key1}`)
-        //     REFERENCES `{$table1}`(`{$key1}`) ON DELETE CASCADE ON UPDATE CASCADE;"
-        // );
-        // // установка связи между таблицами table2 и table2_table1 по индексу key2
-        // $this->run(
-        //     "ALTER TABLE `{$new_table}` ADD CONSTRAINT `{$key2}` FOREIGN KEY (`{$key2}`)
-        //     REFERENCES `{$table2}`(`{$key2}`) ON DELETE CASCADE ON UPDATE CASCADE;"
-        // );
+        // создание уникальных пар
+        $table_idx = 'uidx_'.mb_substr($new_table, 0, 6);
+        $this->run(
+            "ALTER TABLE `{$new_table}`
+            ADD UNIQUE `{$table_idx}` (`{$key1}`, `{$key2}`)'"
+        );
 
     }
 

@@ -121,6 +121,7 @@
     $admin->relation_NN('songs', 'categories', 'song_id', 'cat_id');
     //
 
+
     $db->run('SET FOREIGN_KEY_CHECKS = 1;');
     $db->run('SET UNIQUE_CHECKS = 1;');
 

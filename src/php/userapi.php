@@ -16,6 +16,22 @@ function clamp($num, $min, $max) {
   return min(max($num, $min), $max);
 }
 
+function get_songs_from_category($category_id) {
+  global $db;
+  return $db->fetchAll('SELECT
+    `songs_categories`.`song_id`,
+    `songs`.`artist`,
+    `songs`.`title`,
+    `songs`.`album`
+      FROM `songs_categories`
+      JOIN `songs` ON `songs`.`song_id` = `songs_categories`.`song_id`
+      WHERE `songs_categories`.`cat_id` = :cat_id',
+  [
+    ':cat_id' => $category_id
+  ]
+  );
+}
+
 if ($contentType === "application/json") {
     // получение данных POST формы
     $content = trim(file_get_contents("php://input"));
@@ -95,12 +111,6 @@ if(isset($decoded['op'])) {
         $email = processStatus($validate->email($decoded['email']));
         $submitted_by = get_ip();
 
-        // var_dump($artist);
-        // var_dump($href);
-        // var_dump($about);
-        // var_dump($email);
-        // var_dump($submitted_by);
-
         $data = $db->fetch(
             'INSERT INTO `yt_songs` (`artist`, `link`, `about`, `email`, `submitted_by`)
             VALUES (:artist, :link, :about, :email, :submitted_by)',
@@ -148,29 +158,13 @@ if(isset($decoded['op'])) {
         }
         $id = intval($data['cat_id']);
         $title = $data['title'];
-        // get songs from category
-        $rows = $db->fetchAll('SELECT
-          `songs_categories`.`song_id`,
-          `songs`.`artist`,
-          `songs`.`title`,
-          `songs`.`album`
-           FROM `songs_categories`
-           JOIN `songs` ON `songs`.`song_id` = `songs_categories`.`song_id`
-           WHERE `songs_categories`.`cat_id` = :cat_id',
-        [
-          ':cat_id' => $id
-        ]
-        );
-        // get data about each song
-        // foreach ($rows as $item) {
-        //   $song_id = $item['song_id'];
-        //   $data =
-        // }
+
+        $songs = get_songs_from_category($id);
         // output
         $res = new Status('OK', ['msg' => [
           'cat_id' => $id,
           'title' => $title,
-          'songs' => $rows
+          'songs' => $songs
         ]]);
         sendAsJson($res);
     }
@@ -205,6 +199,73 @@ if(isset($decoded['op'])) {
 
         // output
         $res = new Status('OK', ['msg' => $rows]);
+        sendAsJson($res);
+    }
+
+    if($decoded['op'] == 'get_song_data') {
+        requireFields(['url']);
+        $url = htmlspecialchars($decoded['url']);
+        $args = explode(' - ', $url, 2);
+        if(count($args) != 2) {
+          sendAsJson(new Status('WRONG_FORMAT'));
+          exit();
+        }
+        $artist = $args[0];
+        $title = $args[1];
+        // search song
+        $data = $db->fetch('SELECT `song_id`, `artist`, `title`, `album`, `lyrics`, `song_link` FROM `songs` WHERE `artist` = :artist AND `title` = :title LIMIT 1',
+        [
+          ':artist' => $artist,
+          ':title' => $title
+        ]
+        );
+        // empty
+        if(empty($data)) {
+          sendAsJson(new Status('EMPTY'));
+          exit();
+        }
+        $song_id = intval($data['song_id']);
+        // get category of this song
+        $category_id_row = $db->fetch('SELECT `cat_id` FROM `songs_categories` WHERE `song_id` = :song_id LIMIT 1',
+          [
+            ':song_id' => $song_id
+          ]
+        );
+        // get other songs from this category
+        $prev_song = '';
+        $next_song = '';
+        if(!empty($category_id_row)) {
+          $category_id = intval($category_id_row['cat_id']);
+          $songs = get_songs_from_category($category_id);
+          $prev_idx = -1;
+          $next_idx = -1;
+          $songs_count = count($songs);
+          for($i = 0; $i < $songs_count; $i++) {
+            $song = $songs[$i];
+            if($song['song_id'] == $song_id) {
+              $prev_idx = $i - 1;
+              $next_idx = $i + 1;
+              break;
+            }
+          }
+          if($prev_idx >= 0) {
+            $prev_song = $songs[$prev_idx]['artist'].' - '.$songs[$prev_idx]['title'];
+          }
+          if($next_idx < $songs_count) {
+            $next_song = $songs[$next_idx]['artist'].' - '.$songs[$next_idx]['title'];
+          }
+        }
+        // output
+        $res = new Status('OK', ['msg' => [
+          'song_id' => $song_id,
+          'artist' => $artist,
+          'title' => $title,
+          'album' => $data['album'],
+          'lyrics' => $data['lyrics'],
+          'href' => $data['song_link'],
+          'prev_song' => $prev_song,
+          'next_song' => $next_song
+        ]]);
         sendAsJson($res);
     }
 

@@ -26,7 +26,7 @@
     //   exit();
     // }
     $song = htmlspecialchars($_GET['song']);
-    include('trending.html');
+    include('lyrics.html');
     exit();
   }
 
