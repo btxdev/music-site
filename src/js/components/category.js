@@ -65,7 +65,7 @@ function addSearchComponent() {
         $songElement.style.visibility = 'hidden';
       }
       else {
-        $songElement.setAttribute('href', 'song/' + title);
+        $songElement.setAttribute('href', '/song/' + title);
       }
       $songElement.innerHTML = `
         <strong class="hero__dropdown-title">${title}</strong>
