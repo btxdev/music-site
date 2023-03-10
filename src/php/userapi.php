@@ -269,6 +269,25 @@ if(isset($decoded['op'])) {
         sendAsJson($res);
     }
 
+    if($decoded['op'] == 'get_artist_data') {
+        requireFields(['artist']);
+        $artist = htmlspecialchars($decoded['artist']);
+        // get category id and title
+        $data = $db->fetchAll('SELECT `song_id`, `artist`, `title` FROM `songs` WHERE `artist` = :artist',
+        [
+          ':artist' => $artist
+        ]
+        );
+        // empty
+        if(empty($data)) {
+          sendAsJson(new Status('EMPTY'));
+          exit();
+        }
+        // output
+        $res = new Status('OK', ['msg' => $data]);
+        sendAsJson($res);
+    }
+
 }
 
 $result = new Status('EMPTY');

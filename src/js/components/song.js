@@ -17,7 +17,7 @@ if (isSong) {
 }
 
 function main() {
-  document.title = url + ' :: Toklyrics';
+  document.title = url + ' Lyrics — Toklyrics';
   fetchApi(vars.apiUserUrl, {op: 'get_song_data', url: url}).then((data) => {
     if(data.status == 'OK') {
       const song = data.msg;
