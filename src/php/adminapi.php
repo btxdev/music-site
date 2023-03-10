@@ -173,6 +173,23 @@ if(isset($decoded['op'])) {
     sendAsJson($result);
   }
 
+  if($decoded['op'] == 'add_song_to_category') {
+    requireFields(['cat_id', 'song_id']);
+    $cat_id = intval($decoded['cat_id']);
+    $song_id = intval($decoded['song_id']);
+    // add record to db
+    $db->run(
+        'INSERT INTO `songs_categories` (`song_id`, `cat_id`) VALUES (:song_id, :cat_id)',
+        [
+          ':song_id' => $song_id,
+          ':cat_id' => $cat_id
+        ]
+    );
+
+    $result = new Status('OK');
+    sendAsJson($result);
+  }
+
 }
 
 ?>

@@ -42,6 +42,9 @@ function addSearchComponent() {
         </a>
       </div>
     </label>
+    <br>
+    <br>
+    <br>
   `;
   $title.parentNode.insertBefore($container, $title.nextSibling);
 
@@ -59,7 +62,8 @@ function addSearchComponent() {
       return;
     }
 
-    function addSong($parent, title, description) {
+    // add song to dropdown
+    function addSong($parent, title, description, songId) {
       const $songElement = document.createElement('a');
       $songElement.classList.add('hero__dropdown-item');
       $songElement.innerHTML = `
@@ -67,20 +71,29 @@ function addSearchComponent() {
         <p class="hero__dropdown-descr">${description}</p>
       `;
       $parent.appendChild($songElement);
-      // $songElement.addEventListener('click')
+      $songElement.addEventListener('click', function() {
+        // add song into category
+        fetchApi(vars.apiAdminUrl, {op: 'add_song_to_category', cat_id: currentCategoryId, song_id: songId}).then((data) => {
+          if(data.status == 'OK') {
+            loadSongs();
+            inputHero.value = '';
+            inputDropdown.classList.remove('hero__dropdown--active');
+          }
+        });
+      });
     }
 
+    // search api
     fetchApi(vars.apiUserUrl, {op: 'search', query: query}).then((data) => {
       if(data.status == 'OK') {
         inputDropdown.innerHTML = '';
-        // console.log(data);
         const songs = data.msg;
         if(songs.length == 0) {
           inputDropdown.innerHTML = '<p>No results found</p>';
         }
         for(const song of songs) {
           const songName = song.artist + ' - ' + song.title;
-          addSong(inputDropdown, songName, song.lyrics);
+          addSong(inputDropdown, songName, song.lyrics, song.song_id);
         }
       }
     });
