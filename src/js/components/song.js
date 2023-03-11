@@ -7,6 +7,7 @@ const currentFilename = window.location.pathname.split("/").pop().split(".")[0];
 const url = decodeURI(currentFilename);
 
 const $artist = document.querySelector('.lyrics__artist');
+const $categories = document.querySelector('.lyrics__categories');
 const $track = document.querySelector('.lyrics__track');
 const $remove = document.querySelector('.lyrics__remove');
 const $lyrics = document.querySelector('.lyrics__inner');
@@ -31,9 +32,22 @@ function main() {
   fetchApi(vars.apiUserUrl, {op: 'get_song_data', url: url}).then((data) => {
     if(data.status == 'OK') {
       const song = data.msg;
+      console.log(song);
 
       $artist.innerText = song.artist;
       $artist.setAttribute('href', `/artist/${song.artist}`);
+
+      $categories.innerHTML = '';
+      for(const category of song.categories) {
+        console.log(category);
+        const $category = document.createElement('a');
+        $category.innerText = category.toUpperCase();
+        $category.classList.add('lyrics__artist');
+        $category.setAttribute('href', `/category/${category}`);
+        $category.setAttribute('data-aos', 'fade-up');
+        $category.setAttribute('data-aos-once', 'true');
+        $categories.appendChild($category);
+      }
 
       if (vars.loggedIn === true) {
         $remove.style.display = 'block';
@@ -45,7 +59,6 @@ function main() {
       $track.innerText = `${song.artist} - ${song.title}`;
 
       $lyrics.innerHTML = '<span data-aos="fade-up" data-aos-once="true">Lyrics</span>';
-      // $lyrics.innerHTML += song.lyrics.replace(/\n/g, "<br />");
       const lines = song.lyrics.split('\n');
       for(const line of lines) {
         const $line = document.createElement('p');
@@ -78,11 +91,11 @@ function main() {
 
     }
     else {
-      window.location.replace('/');
+      // window.location.replace('/');
     }
   })
   .catch(error => {
-    window.location.replace('/');
+    // window.location.replace('/');
   });
 }
 

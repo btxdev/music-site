@@ -226,7 +226,7 @@ if(isset($decoded['op'])) {
         }
         $song_id = intval($data['song_id']);
         // get category of this song
-        $category_id_row = $db->fetch('SELECT `cat_id` FROM `songs_categories` WHERE `song_id` = :song_id LIMIT 1',
+        $category_id_rows = $db->fetchAll('SELECT `cat_id` FROM `songs_categories` WHERE `song_id` = :song_id',
           [
             ':song_id' => $song_id
           ]
@@ -234,8 +234,10 @@ if(isset($decoded['op'])) {
         // get other songs from this category
         $prev_song = '';
         $next_song = '';
-        if(!empty($category_id_row)) {
-          $category_id = intval($category_id_row['cat_id']);
+        $categories = [];
+        if(!empty($category_id_rows)) {
+          // get previous and next categories
+          $category_id = intval($category_id_rows[0]['cat_id']);
           $songs = get_songs_from_category($category_id);
           $prev_idx = -1;
           $next_idx = -1;
@@ -254,6 +256,18 @@ if(isset($decoded['op'])) {
           if($next_idx < $songs_count) {
             $next_song = $songs[$next_idx]['artist'].' - '.$songs[$next_idx]['title'];
           }
+          // get info about categories
+          foreach($category_id_rows as $record) {
+            $cat_id = $record['cat_id'];
+            $cat_info = $db->fetch('SELECT `link` FROM `categories` WHERE `cat_id` = :cat_id LIMIT 1',
+              [
+                ':cat_id' => $cat_id
+              ]
+            );
+            if(!empty($cat_info)) {
+              array_push($categories, $cat_info['link']);
+            }
+          }
         }
         // output
         $res = new Status('OK', ['msg' => [
@@ -263,6 +277,7 @@ if(isset($decoded['op'])) {
           'album' => $data['album'],
           'lyrics' => $data['lyrics'],
           'href' => $data['song_link'],
+          'categories' => $categories,
           'prev_song' => $prev_song,
           'next_song' => $next_song
         ]]);
